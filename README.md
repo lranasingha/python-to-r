@@ -1,4 +1,8 @@
 # Python to R Wrapper
 
-export FLASK_APP=hello.py
-$ flask run
+### How to run?
+```
+export FLASK_APP=rest/routes.py
+flask run
+
+```
