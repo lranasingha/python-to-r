@@ -21,5 +21,5 @@ def get_health_check():
 @app.route('/log/<int:base>/<int:value>')
 def get_calculated_log(base, value):
     return json.dumps({
-        'logarithm': calculate_log(base, value)[0]
+        'logarithm': calculate_log(base, value)
         }, indent=4)
