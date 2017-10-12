@@ -3,7 +3,9 @@
 ### Installation
 
 1. You need to have R (3.4.2 or above) installed (https://www.r-project.org)
-..* ex: `brew install R`    
+
+  ex: `brew install R`    
+
 2. Install python 3.6+
 
 ### How to run?
