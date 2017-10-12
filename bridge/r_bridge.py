@@ -11,11 +11,12 @@ def r_version_on_build():
 
 #open() is relative by default
 def get_r_func_handle():
-    with open('rsource/log_calc.R', 'r') as log_cal_r_file:
+    with open('rsrc/log_calc.R', 'r') as log_cal_r_file:
         log_cal_r_str = log_cal_r_file.read()
     r_func_handle = SignatureTranslatedAnonymousPackage(log_cal_r_str, "r_func_handle")
     return r_func_handle
 
+r_func_handle = get_r_func_handle()
 
 def calculate_log(b, x):
-    return get_r_func_handle().calcLog(b, x)[0]
+    return r_func_handle.calcLog(b, x)[0]

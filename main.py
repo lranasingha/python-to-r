@@ -1,10 +1,21 @@
+import os
+import logging
 import json
 from flask import Flask
-from r_bridge import rpy2_version
-from r_bridge import r_version_on_build
-from r_bridge import calculate_log
+from bridge.r_bridge import rpy2_version
+from bridge.r_bridge import r_version_on_build
+from bridge.r_bridge import calculate_log
 
-app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
+
+def init_app():
+    app = Flask(__name__)
+    port = os.getenv('VCAP_APP_PORT', 5000)
+    if __name__ == '__main__':
+        app.run(host='0.0.0.0', port=int(port))
+    return app
+
+app = init_app()
 
 @app.route('/')
 def get_app_route():
