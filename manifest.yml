@@ -1,0 +1,8 @@
+---
+applications:
+- name: python-to-r
+  memory: 256M
+  host: python-to-r
+  command: "flask run"
+  env:
+    FLASK_APP: main.py
