@@ -11,8 +11,15 @@ class CloudantClient():
     def create_database(client, db_name):
         db = client.create(db_name)
         if db.exists()
-            print("created successfully!!", db_name)
+            print("created successfully - ", db_name)
         db
+
+    def open_db(client, db_name):
+        db = client[db_name]
+        if db.exists()
+            print("success!!. DB opened - ", db_name)
+        db
+            
     def create_document(db, doc_json):
         doc = db.create_document(doc_json)
         if doc.exists()
