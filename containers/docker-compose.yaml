@@ -1,0 +1,14 @@
+version: '3'
+services:
+  cloudant-developer:
+    ports:
+      - "7080:80"
+    image: ibmcom/cloudant-developer:latest
+    container_name: cloudant-developer
+    volumes:
+      - cloudant-developer:/srv
+    build:
+      context: .
+
+volumes:
+  cloudant-developer:
