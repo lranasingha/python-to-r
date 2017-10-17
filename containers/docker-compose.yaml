@@ -9,6 +9,18 @@ services:
       - cloudant-developer:/srv
     build:
       context: .
+      
+  db2-developer:
+    container_name: "db2-developer"
+    build:
+      context: .
+    tty: true
+    environment:
+      - DB2INST1_PASSWORD=db2-dev-pw
+      - LICENSE=accept
+    ports:
+      - "50000:50000"
+    command: db2start
 
 volumes:
   cloudant-developer:
