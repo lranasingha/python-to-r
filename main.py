@@ -34,16 +34,21 @@ app = init_app()
 
 @app.before_first_request
 def init_databases():
-    if os.getenv("cloudant_enabled"):
+    is_cloudant_enabled = os.getenv("cloudant_enabled")
+    print("cloudant_enabled : ", is_cloudant_enabled)
+    if is_cloudant_enabled:
         connect_cloudant()
         create_cloudant_db("config_db")
 
-    db2_client = connect_db2("eventsdb")
+    is_db2_enabled = os.getenv("db2_enabled")
+    print("db2_enabled : ", is_db2_enabled)
+    if is_db2_enabled:
+        connect_db2("eventsdb")
 
 @atexit.register
 def shutdown():
     disconnect_cloudant()
-    close_db2(db2_client)
+    close_db2()
 
 @app.route('/')
 def get_app_route():
