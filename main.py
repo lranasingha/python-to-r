@@ -22,14 +22,13 @@ logging.basicConfig(level=logging.INFO)
 
 def init_app():
     app = Flask(__name__)
-    port = os.getenv('VCAP_APP_PORT', 5000)
+    port = os.getenv('PORT', 5000)
     if __name__ == '__main__':
         app.run(host='0.0.0.0', port=int(port))
 
     return app
 
 app = init_app()
-
 
 cloudant_client = connect_cloudant("admin", "pass", "http://localhost:7080")
 config_db = create_cloudant_db(cloudant_client, "config_db")
@@ -63,7 +62,6 @@ def get_calculated_log(base, value):
 @app.route('/config', methods = ["POST"])
 def create_config():
     request_body = request.get_json()
-
     create_document(config_db, request_body)
 
     return make_response('', 201)
