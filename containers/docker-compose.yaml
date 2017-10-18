@@ -9,7 +9,7 @@ services:
       - cloudant-developer:/srv
     build:
       context: .
-      
+
   db2-developer:
     container_name: "db2-developer"
     build:

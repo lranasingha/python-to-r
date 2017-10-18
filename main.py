@@ -13,6 +13,7 @@ from bridge.r_bridge import r_version_on_build
 from bridge.r_bridge import calculate_log
 
 from db.cloudant_interface import *
+from db.db2_interface import connect_db2
 
 logging.basicConfig(level=logging.INFO)
 
@@ -26,8 +27,12 @@ def init_app():
 
 app = init_app()
 
-cloudant_client = connect("admin", "pass", "http://localhost:7080")
-db = create_db(cloudant_client, "config_db")
+
+cloudant_client = connect_cloudant("admin", "pass", "http://localhost:7080")
+config_db = create_cloudant_db(cloudant_client, "config_db")
+
+db_client = connect_db2("eventsdb")
+
 
 @atexit.register
 def shutdown():
@@ -55,7 +60,7 @@ def get_calculated_log(base, value):
 @app.route('/config', methods = ["POST"])
 def create_config():
     request_body = request.get_json()
-    
-    create_document(db, request_body)
+
+    create_document(config_db, request_body)
 
     return make_response('', 201)
