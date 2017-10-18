@@ -3,5 +3,5 @@ applications:
 - name: python-to-r
   memory: 256M
   health-check-type: port
-  buildpack: https://github.com/cloudfoundry/multi-buildpack.git
+  buildpack: https://github.com/cloudfoundry/multi-buildpack.git#v1.0.1
   path: .
