@@ -12,8 +12,11 @@ from bridge.r_bridge import rpy2_version
 from bridge.r_bridge import r_version_on_build
 from bridge.r_bridge import calculate_log
 
-from db.cloudant_interface import *
+from db.cloudant_interface import connect_cloudant
+from db.cloudant_interface import create_document
+from db.cloudant_interface import create_cloudant_db
 from db.db2_interface import connect_db2
+from db.db2_interface import close_db2
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,12 +34,12 @@ app = init_app()
 cloudant_client = connect_cloudant("admin", "pass", "http://localhost:7080")
 config_db = create_cloudant_db(cloudant_client, "config_db")
 
-db_client = connect_db2("eventsdb")
-
+db2_client = connect_db2("eventsdb")
 
 @atexit.register
 def shutdown():
     cloudant_client.disconnect()
+    close_db2(db2_client)
 
 @app.route('/')
 def get_app_route():
