@@ -1,0 +1,4 @@
+---
+buildpacks:
+  - https://github.com/dvulpe/r-buildpack.git#testing
+  - https://github.com/cloudfoundry/python-buildpack.git#v1.6.0

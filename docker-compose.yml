@@ -1,0 +1,7 @@
+version: "3.3"
+services:
+  cloudant:
+    image: ibmcom/cloudant-developer
+    ports:
+      - "7080:80"
+    network_mode: bridge
