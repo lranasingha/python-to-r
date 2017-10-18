@@ -15,6 +15,8 @@ from bridge.r_bridge import calculate_log
 from db.cloudant_interface import connect_cloudant
 from db.cloudant_interface import create_document
 from db.cloudant_interface import create_cloudant_db
+from db.cloudant_interface import disconnect_cloudant
+
 from db.db2_interface import connect_db2
 from db.db2_interface import close_db2
 
@@ -30,14 +32,17 @@ def init_app():
 
 app = init_app()
 
-cloudant_client = connect_cloudant("admin", "pass", "http://localhost:7080")
-config_db = create_cloudant_db(cloudant_client, "config_db")
+@app.before_first_request
+def init_databases():
+    if os.getenv("cloudant_enabled"):
+        connect_cloudant()
+        create_cloudant_db("config_db")
 
-db2_client = connect_db2("eventsdb")
+    db2_client = connect_db2("eventsdb")
 
 @atexit.register
 def shutdown():
-    cloudant_client.disconnect()
+    disconnect_cloudant()
     close_db2(db2_client)
 
 @app.route('/')
@@ -62,6 +67,6 @@ def get_calculated_log(base, value):
 @app.route('/config', methods = ["POST"])
 def create_config():
     request_body = request.get_json()
-    create_document(config_db, request_body)
+    create_document(request_body)
 
     return make_response('', 201)

@@ -14,7 +14,7 @@ db2 "CREATE TABLE eventsdb.events (
   id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
   description VARCHAR(200),
   status VARCHAR(10),
-  data BLOB,
+  data CLOB,
   PRIMARY KEY (id)
 )"
 
