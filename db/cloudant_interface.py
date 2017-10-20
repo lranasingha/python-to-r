@@ -8,6 +8,8 @@ __db__ = None
 def connect_cloudant():
     is_bluemix_env = os.getenv("cloudant_env") == "bluemix"
 
+    global __cloudant_client__
+
     if is_bluemix_env:
         with cloudant_bluemix(os.getenv("VCAP_SERVICES")) as __cloudant_client__:
             print("connected to cloudant bluemix service!!")
@@ -21,6 +23,7 @@ def disconnect_cloudant():
 
 def create_cloudant_db(db_name):
     if __cloudant_client__ is not None:
+        global __db__
         __db__ = __cloudant_client__.create_database(db_name)
 
         if __db__.exists():

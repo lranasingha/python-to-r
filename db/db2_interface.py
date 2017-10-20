@@ -1,4 +1,5 @@
 import ibm_db
+import os
 
 __db2_connection__ = None
 
@@ -14,13 +15,22 @@ def connect_db2(db_name):
                           "UID={username};"
                           "PWD={password};").format(db=db_name, hostname="localhost", username="db2inst1", password="db2-dev-pw", port=50000)
 
+        global __db2_connection__
         __db2_connection__ = ibm_db.connect(db_con_string, '', '')
         print("connected to local db2 instance!!")
+
+def insert(sql, params):
+    p_stmt = ibm_db.prepare(__db2_connection__, sql)
+
+    for i, (k,v) in enumerate(params.items()):
+        ibm_db.bind_param(p_stmt, (i+1), v)
+
+    ibm_db.execute(p_stmt)
 
 def close_db2():
     try:
         if __db2_connection__ is not None:
-            ibm_db.close(db2_conn)
+            ibm_db.close(__db2_connection__)
     except Exception as ex:
         print("failed to close the db2 connection!!")
-        raise _get_exception(ex)
+        raise ex
