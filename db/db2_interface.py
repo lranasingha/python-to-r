@@ -1,5 +1,8 @@
 import ibm_db
+import ibm_db_dbi
 import os
+import pandas as pd
+import numpy as np
 
 __db2_connection__ = None
 
@@ -20,12 +23,21 @@ def connect_db2(db_name):
         print("connected to local db2 instance!!")
 
 def insert(sql, params):
-    p_stmt = ibm_db.prepare(__db2_connection__, sql)
+    if __db2_connection__ is not None:
+        p_stmt = ibm_db.prepare(__db2_connection__, sql)
 
-    for i, (k,v) in enumerate(params.items()):
-        ibm_db.bind_param(p_stmt, (i+1), v)
+        for i, (k,v) in enumerate(params.items()):
+            ibm_db.bind_param(p_stmt, (i+1), v)
 
-    ibm_db.execute(p_stmt)
+        ibm_db.execute(p_stmt)
+
+def get_all_events():
+    if __db2_connection__ is not None:
+        dbi_conn = ibm_db_dbi.Connection(__db2_connection__)
+
+        events_dataframe = pd.read_sql("SELECT * FROM eventsdb.events LIMIT(100000)", dbi_conn)
+
+        return events_dataframe
 
 def close_db2():
     try:

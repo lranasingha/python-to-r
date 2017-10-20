@@ -11,6 +11,7 @@ import atexit
 from bridge.r_bridge import rpy2_version
 from bridge.r_bridge import r_version_on_build
 from bridge.r_bridge import calculate_log
+from bridge.r_bridge import get_event_count
 
 from db.cloudant_interface import connect_cloudant
 from db.cloudant_interface import create_document
@@ -75,3 +76,9 @@ def create_config():
     create_document(request_body)
 
     return make_response('', 201)
+
+@app.route('/model/events/count')
+def get_events_count():
+    return json.dumps({
+        "eventsCount": get_event_count()
+    })
