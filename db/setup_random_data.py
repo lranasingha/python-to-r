@@ -1,5 +1,4 @@
-#!/usr/local/bin/python3
-
+import sys
 import random
 import io
 from db2_interface import *
@@ -11,7 +10,7 @@ def insert_random(num_of_rows):
         print("reading random text from a file...")
         with open("random.txt", 'r') as f:
             random_text = f.read()
-        print("inserting {} rows".format(num_of_rows))    
+        print("inserting {} rows".format(num_of_rows))
         for _ in range(num_of_rows):
             params = {"description": __some_random_description__(), "status": 'COMPLETED', "data": random_text}
             insert("INSERT into eventsdb.events (description, status, data) VALUES (?, ?, ?);", params)
@@ -25,4 +24,9 @@ def insert_random(num_of_rows):
 def __some_random_description__():
     return ''.join(random.choice("this a description that I am going to mix") for _ in range(50))
 
-insert_random(1000000)
+if len(sys.argv) == 1:
+    print("Number of rows to insert not specified, inserting 1 row by default")
+    insert_random(1)
+else:
+    number_of_rows = sys.argv[1]
+    insert_random(int(number_of_rows))
