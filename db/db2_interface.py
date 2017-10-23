@@ -35,9 +35,8 @@ def get_all_events():
     if __db2_connection__ is not None:
         dbi_conn = ibm_db_dbi.Connection(__db2_connection__)
 
-        events_dataframe = pd.read_sql("SELECT * FROM eventsdb.events LIMIT(100000)", dbi_conn)
-
-        return events_dataframe
+        events_dataframe = pd.read_sql("SELECT id,description,status FROM eventsdb.events LIMIT(800000)", dbi_conn)
+        return (len(events_dataframe), events_dataframe.memory_usage(index=True).sum())
 
 def close_db2():
     try:

@@ -25,6 +25,5 @@ r_func_handle = get_r_func_handle()
 def calculate_log(b, x):
     return r_func_handle.calcLog(b, x)[0]
 
-def get_event_count():
-    events_dataframe = get_all_events()
-    return len(events_dataframe)
+def get_event_info():
+    return get_all_events()

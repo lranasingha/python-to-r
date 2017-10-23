@@ -11,7 +11,7 @@ import atexit
 from bridge.r_bridge import rpy2_version
 from bridge.r_bridge import r_version_on_build
 from bridge.r_bridge import calculate_log
-from bridge.r_bridge import get_event_count
+from bridge.r_bridge import get_event_info
 
 from db.cloudant_interface import connect_cloudant
 from db.cloudant_interface import create_document
@@ -77,8 +77,11 @@ def create_config():
 
     return make_response('', 201)
 
-@app.route('/model/events/count')
+@app.route('/model/events')
 def get_events_count():
+    evts = get_event_info()
+    memory_mbs = evts[1]/(1024*1024)
     return json.dumps({
-        "eventsCount": get_event_count()
+        "eventsCount": evts[0],
+        "memoryUsage": str(memory_mbs)+"MB"
     })
