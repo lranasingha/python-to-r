@@ -3,13 +3,17 @@ import random
 import io
 from db2_interface import *
 
-def insert_random(num_of_rows):
+def insert_random(num_of_rows, no_data):
     try:
         print("connecting to db.. ")
         connect_db2("eventsdb")
         print("reading random text from a file...")
-        with open("random.txt", 'r') as f:
-            random_text = f.read()
+        random_text = ""
+
+        if not no_data :
+            with open("random.txt", 'r') as f:
+                random_text = f.read()
+
         print("inserting {} rows".format(num_of_rows))
         for _ in range(num_of_rows):
             params = {"description": __some_random_description__(), "status": 'COMPLETED', "data": random_text}
@@ -27,6 +31,10 @@ def __some_random_description__():
 if len(sys.argv) == 1:
     print("Number of rows to insert not specified, inserting 1 row by default")
     insert_random(1)
+elif len(sys.argv) == 2:
+    number_of_rows = sys.argv[1]
+    insert_random(int(number_of_rows), True)
 else:
     number_of_rows = sys.argv[1]
-    insert_random(int(number_of_rows))
+    no_data = sys.argv[2]
+    insert_random(int(number_of_rows), bool(no_data))
