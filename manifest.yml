@@ -5,3 +5,13 @@ applications:
   health-check-type: port
   buildpack: https://github.com/cloudfoundry/multi-buildpack.git#v1.0.1
   path: .
+  env:
+    db2_host: localhost
+    db2_port: 50000
+    db2_dbname: db2db1
+    db2_user: db2inst1
+    db2_password: password
+    db2_ssl_enabled: true
+    db2_ssl_cert: ""
+    # db2_ssl_client_keystore_db: ""
+    # db2_ssl_client_keystore_db_password: "password"
