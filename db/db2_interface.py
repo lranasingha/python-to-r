@@ -16,19 +16,18 @@ def connect_db2(db_name):
                               "DATABASE={db};"
                               "HOSTNAME={hostname};"
                               "PORT={port};"
-                              "PROTOCOL=TCPIP;"
+                              "PROTOCOL={protocol};"
                               "UID={username};"
                               "PWD={password};").format(
                                   db=os.getenv("db2_dbname", db_name),
                                   hostname=os.getenv("db2_host", "localhost"),
                                   username=os.getenv("db2_user", "db2inst1"),
                                   password=os.getenv("db2_password", "db2-dev-pw"),
-                                  port=os.getenv("db2_port", 50000)
+                                  port=os.getenv("db2_port", 50000),
+                                  protocol=os.getenv("db2_protocol", "TCPIP")
                               )
 
-        ssl_enabled = os.getenv("db2_ssl_enabled", False)
-
-        if ssl_enabled :
+        if os.getenv("db2_ssl_enabled") == 'true':
             db_con_string = (
             db_con_string +
             "SECURITY=SSL;"
@@ -36,7 +35,6 @@ def connect_db2(db_name):
             )
 
         print(db_con_string)
-
         global __db2_connection__
         __db2_connection__ = ibm_db.connect(db_con_string, '', '')
         print("connected to local db2 instance!!")

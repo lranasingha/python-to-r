@@ -3,8 +3,9 @@
 export DYLD_LIBRARY_PATH=/usr/local/lib/python3.6/site-packages/clidriver/lib/:${DYLD_LIBRARY_PATH}
 export FLASK_APP=main.py
 
-export cloudant_enabled=true
+export cloudant_enabled=false
 export db2_enabled=true
+export db2_ssl_enabled=false
 
 if [ "$#" -lt 1 ];
 then
