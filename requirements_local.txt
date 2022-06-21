@@ -12,7 +12,7 @@ Jinja2==2.9.6
 MarkupSafe==1.0
 matplotlib==2.1.0
 memory-profiler==0.47
-numpy==1.13.3
+numpy==1.22.0
 pandas==0.20.3
 psutil==5.4.0
 pyparsing==2.2.0
